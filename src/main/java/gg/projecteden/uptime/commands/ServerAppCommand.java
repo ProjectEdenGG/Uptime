@@ -30,19 +30,19 @@ public class ServerAppCommand extends AppCommand {
 
 	@Command("Stop a server")
 	void stop(@Optional("smp") String server) {
-		Utils.bash("mark2 send -n " + server + " maintenance", validate(server));
+		new Thread(() -> Utils.bash("mark2 send -n " + server + " maintenance", validate(server)));
 		replyEphemeral("Stopping server " + server);
 	}
 
 	@Command("Reboot a server")
 	void reboot(@Optional("smp") String server) {
-		Utils.bash("mark2 send -n " + server + " reboot", validate(server));
+		new Thread(() -> Utils.bash("mark2 send -n " + server + " reboot", validate(server)));
 		replyEphemeral("Rebooting server " + server);
 	}
 
 	@Command("Force stop a server")
 	void kill(@Optional("smp") String server) {
-		Utils.bash("mark2 kill -n " + server, validate(server));
+		new Thread(() -> Utils.bash("mark2 kill -n " + server, validate(server)));
 		replyEphemeral("Killing server " + server);
 	}
 
