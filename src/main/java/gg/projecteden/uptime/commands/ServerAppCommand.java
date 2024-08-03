@@ -9,6 +9,7 @@ import gg.projecteden.api.discord.appcommands.annotations.RequiredRole;
 import gg.projecteden.api.discord.appcommands.annotations.Optional;
 import gg.projecteden.api.discord.appcommands.exceptions.AppCommandException;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -23,30 +24,32 @@ public class ServerAppCommand extends AppCommand {
 
 	@Command("Start a server")
 	void start(@Optional("smp") String server) {
-		validate(server);
-		Utils.bash("mark2 start -n " + server);
+		new Thread(() -> Utils.bash("mark2 start -n " + server, validate(server)));
+		replyEphemeral("Starting server " + server);
 	}
 
 	@Command("Stop a server")
 	void stop(@Optional("smp") String server) {
-		validate(server);
-		Utils.bash("mark2 send -n " + server + " maintenance");
+		Utils.bash("mark2 send -n " + server + " maintenance", validate(server));
+		replyEphemeral("Stopping server " + server);
 	}
 
 	@Command("Reboot a server")
 	void reboot(@Optional("smp") String server) {
-		validate(server);
-		Utils.bash("mark2 send -n " + server + " reboot");
+		Utils.bash("mark2 send -n " + server + " reboot", validate(server));
+		replyEphemeral("Rebooting server " + server);
 	}
 
 	@Command("Force stop a server")
 	void kill(@Optional("smp") String server) {
-		validate(server);
-		Utils.bash("mark2 kill -n " + server);
+		Utils.bash("mark2 kill -n " + server, validate(server));
+		replyEphemeral("Killing server " + server);
 	}
 
-	private static void validate(String server) {
-		if (!Files.exists(Path.of("/home/minecraft/servers", server)))
+	private static File validate(String server) {
+		final Path path = Path.of("/home/minecraft/servers", server);
+		if (!Files.exists(path))
 			throw new AppCommandException("Server " + server + " does not exist");
+		return path.toFile();
 	}
 }
