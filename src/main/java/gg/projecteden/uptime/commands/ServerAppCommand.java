@@ -7,11 +7,10 @@ import gg.projecteden.api.discord.appcommands.annotations.Command;
 import gg.projecteden.api.discord.appcommands.annotations.GuildCommand;
 import gg.projecteden.api.discord.appcommands.annotations.RequiredRole;
 import gg.projecteden.api.discord.appcommands.annotations.Optional;
-import gg.projecteden.api.discord.appcommands.exceptions.AppCommandException;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
+
+import static gg.projecteden.uptime.Uptime.folder;
 
 @GuildCommand("132680070480396288")
 @Command("Manage Project Eden's minecraft servers")
@@ -48,12 +47,5 @@ public class ServerAppCommand extends AppCommand {
 		final File folder = folder(server);
 		new Thread(() -> Utils.bash("mark2 kill -n " + server, folder)).start();
 		replyEphemeral("Killing server " + server);
-	}
-
-	private static File folder(String server) {
-		final Path path = Path.of("/home/minecraft/servers", server);
-		if (!Files.exists(path))
-			throw new AppCommandException("Server " + server + " does not exist");
-		return path.toFile();
 	}
 }
