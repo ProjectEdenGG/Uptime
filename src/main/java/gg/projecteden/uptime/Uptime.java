@@ -33,7 +33,7 @@ public class Uptime extends EdenAPI {
 
 	private static void echo() {
 		final File folder = folder("smp");
-		Utils.bash("mark2 send -n smp \"echo Uptime started\"", folder);
+		Utils.bash("mark2 send -n smp echo Uptime started", folder);
 	}
 
 	@Override
