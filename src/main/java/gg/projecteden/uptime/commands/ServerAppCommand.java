@@ -5,8 +5,8 @@ import gg.projecteden.api.discord.appcommands.AppCommand;
 import gg.projecteden.api.discord.appcommands.AppCommandEvent;
 import gg.projecteden.api.discord.appcommands.annotations.Command;
 import gg.projecteden.api.discord.appcommands.annotations.GuildCommand;
-import gg.projecteden.api.discord.appcommands.annotations.RequiredRole;
 import gg.projecteden.api.discord.appcommands.annotations.Optional;
+import gg.projecteden.api.discord.appcommands.annotations.RequiredRole;
 
 import java.io.File;
 
@@ -25,27 +25,27 @@ public class ServerAppCommand extends AppCommand {
 	void start(@Optional("smp") String server) {
 		final File folder = folder(server);
 		new Thread(() -> Utils.bash("mark2 start -n " + server, folder)).start();
-		replyEphemeral("Starting server " + server);
+		reply("Starting server " + server);
 	}
 
 	@Command("Stop a server")
 	void stop(@Optional("smp") String server) {
 		final File folder = folder(server);
 		new Thread(() -> Utils.bash("mark2 send -n " + server + " maintenance", folder)).start();
-		replyEphemeral("Stopping server " + server);
+		reply("Stopping server " + server);
 	}
 
 	@Command("Reboot a server")
 	void reboot(@Optional("smp") String server) {
 		final File folder = folder(server);
 		new Thread(() -> Utils.bash("mark2 send -n " + server + " reboot", folder)).start();
-		replyEphemeral("Rebooting server " + server);
+		reply("Rebooting server " + server);
 	}
 
 	@Command("Force stop a server")
 	void kill(@Optional("smp") String server) {
 		final File folder = folder(server);
 		new Thread(() -> Utils.bash("mark2 kill -n " + server, folder)).start();
-		replyEphemeral("Killing server " + server);
+		reply("Killing server " + server);
 	}
 }
